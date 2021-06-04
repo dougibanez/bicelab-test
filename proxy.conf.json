@@ -1,0 +1,7 @@
+{
+    "/last*": {
+        "target": "http://indecon.site",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

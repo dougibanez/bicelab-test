@@ -1,0 +1,50 @@
+<div class="list row">
+  <div class="col-md-6">
+    <h4>Indicadores</h4>
+    <ul class="list-group">
+      <li class="list-group-item noselect" *ngFor="let indicador of indicadores; let i = index"
+        [class.active]="i == indice" (click)="setearIndicadorActivo(indicador, i)" unselectable="on"
+        onselectstart="return false;" onmousedown="return false;">
+        {{ indicador.name | tildes | titlecase }}
+      </li>
+    </ul>
+
+    <button *ngIf="(indicadores?.length)" class="btn btn-success m-3" (click)="removerTodosIndicadores()">
+      Eliminar Todos
+    </button>
+    <div *ngIf="!(indicadores?.length) && !errorServicio && !cargando" class="alert alert-info"> <!-- -->
+      No hay indicadores publicados
+    </div>
+    <div *ngIf="errorServicio" class="alert alert-danger">
+      No se pudo conectar con el servicio.
+    </div>
+    <button *ngIf="errorServicio" class="btn btn-success m-3" (click)="obtenerIndicadores()">
+      Reintentar
+    </button>
+  </div>
+  <div class="col-md-6">
+    <div *ngIf="indicadorActual.key">
+      <h4>Descripción Indicador</h4>
+      <div>
+        <label><strong>Id:</strong></label>
+        {{ indicadorActual.key | tildes | titlecase }}
+      </div>
+      <div>
+        <label><strong>Indicador:</strong></label>
+        {{ indicadorActual.name | tildes | titlecase }}
+      </div>
+      <div>
+        <label><strong>Unidad:</strong></label>
+        {{ indicadorActual.unit | tildes | titlecase}}
+      </div>
+      <div>
+        <label><strong>Valor:</strong></label>
+        {{ indicadorActual.value | number}}
+      </div>
+
+      <button class="btn btn-danger m-3" (click)="eliminarIndicador(indicadorActual.key)">
+        Eliminar
+      </button>
+    </div>
+  </div>
+</div>
