@@ -22,7 +22,10 @@ export class ListarIndicadoresComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerIndicadores();
   }
-
+  /*
+  * obtenerIndicadores():
+  * inicia la actividad del controller, consumiento la api para obtener los datos y seteando su resultado en un objeto service
+  */  
   obtenerIndicadores(): void {
     this.errorServicio = false;
     this.cargando = true;
@@ -48,17 +51,31 @@ export class ListarIndicadoresComponent implements OnInit {
     }
   }
 
+  /*
+  * setearIndicadorActivo():
+  * setea el indicador que selecciona el usuario para mostrar su detalle
+  */  
   setearIndicadorActivo(indicador: Indicador, index: number): void {
     this.indicadorActual = indicador;
     this.indice = index;
   }
 
+  /*
+  * removerTodosIndicadores():
+  * elimina todos los indicadores de la lista
+  */  
   removerTodosIndicadores(): void {
     this.indicadores = this.indicadoresService.localBD = [];
     this.indicadorActual = {};
     this.indice = -1;
   }
 
+  /*
+  * eliminarIndicador():
+  * elimina un indicador específico
+  * params: 
+  *    keyToDelete: corresponde al índice del arreglo
+  */
   eliminarIndicador(keyToDelete: any): void {
     _.remove(this.indicadoresService.localBD, {
       key: keyToDelete

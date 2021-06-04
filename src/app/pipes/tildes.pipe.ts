@@ -6,7 +6,6 @@ import * as _ from "lodash";
 * Permite reemplazar palabras en una cadena de texto. 
 * Sirve corregir faltas de ortografía de la API, ya que no hay acceso para modificarla.
 */  
-
 @Pipe({
   name: 'tildes'
 })

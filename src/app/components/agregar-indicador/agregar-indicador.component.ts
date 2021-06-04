@@ -21,27 +21,44 @@ export class AgregarIndicadorComponent implements OnInit {
   formError = false;
   formErrorExiste = false;
   formErrorNumero = false;
+  errorServicio = false;
+  cargando = true;
 
   constructor(private indicadoresService: IndicadoresService) { }
-
+  /*
+  * ngOnInit():
+  * inicia la actividad del controller, consumiento la api para obtener los datos y seteando su resultado en un objeto service
+  */
   ngOnInit(): void {
+    this.errorServicio = false;
+    this.cargando = true;
     if (!this.indicadoresService.cargaOK) {
       this.indicadoresService.getAll()
         .subscribe(
           data => {
             this.indicadoresService.localBD = _.values(data);
             this.indicadoresService.cargaOK = true;
+            this.cargando = false;
           },
           error => {
-            //console.log(error);
+            this.errorServicio = true;
+            this.cargando = false;
           });
+    } else {
+      this.cargando = false;
     }
   }
 
+  /*
+  * agregarIndicador():
+  * permite agregar un nuevo elemento a la lista de indicadores, siempre y cuando el valor KEY no esté repetido
+  * muestra mensajes de error en formulario según la condición que se presente
+  */
   agregarIndicador(): void {
+    this.limpiarErrores();
     if (!this.indicadorNoExiste()) {
       this.formErrorExiste = true;
-    } else if (!this.esNumeroCL(this.indicador.value)){
+    } else if (this.indicador.value?.length && !this.esNumeroCL(this.indicador.value)) {
       this.formErrorNumero = true;
     } else {
       this.formError = !this.validarFormulario(this.indicador);
@@ -53,11 +70,13 @@ export class AgregarIndicadorComponent implements OnInit {
     }
   }
 
+  /*
+  * limpiarIndicador():
+  * limpia los valores del formulario y quita los mensajes de error que estén desplegados
+  */
   limpiarIndicador(): void {
+    this.limpiarErrores();
     this.submitted = false;
-    this.formError = false;
-    this.formErrorExiste = false;
-    this.formErrorNumero = false;
     this.indicador = {
       key: '',
       name: '',
@@ -66,6 +85,10 @@ export class AgregarIndicadorComponent implements OnInit {
     };
   }
 
+  /*
+  * validarFormulario():
+  * valida que todos los datos del formulario tengan contenido
+  */
   validarFormulario(indicador: any) {
     return _.every([
       indicador.key.length > 0,
@@ -75,15 +98,32 @@ export class AgregarIndicadorComponent implements OnInit {
     ], Boolean);
   }
 
+  /*
+  * indicadorNoExiste():
+  * valida que el valor KEY del indicador que se está intentando agregar no exista, para evitar duplicidad de KEY
+  */
   indicadorNoExiste() {
     return _.isEmpty(_.find(this.indicadoresService.localBD, ['key', this.indicador.key]));
   }
 
+  /*
+  * esNumeroCL():
+  * expresión regular que permite validar que sea un número entero o decimal. Exige que el separador decimal esté separado por coma
+  */
   esNumeroCL(val: any) {
     let re = /^(?:\d{1,3}(?:\d{3})*|\d+)(?:\,\d+)?$/;
-    console.log("num?:"+val);
-    console.log(re.test(val));
     return re.test(val);
+  }
+
+  /*
+  * limpiarErrores():
+  * limpia todos los mensajes de error
+  */
+  limpiarErrores() {
+    this.formError = false;
+    this.formErrorExiste = false;
+    this.formErrorNumero = false;
+    this.errorServicio = false;
   }
 
 }

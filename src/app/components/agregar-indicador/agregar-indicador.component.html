@@ -1,35 +1,47 @@
-<div>
+<div *ngIf="!cargando">
     <form>
         <div class="submit-form">
-            <div> <!-- *ngIf="!submitted"-->
+            <div>
                 <h4>Agregar Nuevo Indicador</h4>
-                <div class="form-group">
-                    <label for="key">Id</label>
-                    <input type="text" class="form-control" id="key" required [(ngModel)]="indicador.key" name="key" [readonly]="submitted" />
+                <div *ngIf="!errorServicio">
+                    <div class="form-group">
+                        <label for="key">Id</label>
+                        <input type="text" class="form-control" id="key" required [(ngModel)]="indicador.key" name="key"
+                            [readonly]="submitted" />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Indicador</label>
+                        <input class="form-control" id="name" required [(ngModel)]="indicador.name" name="name"
+                            [readonly]="submitted" />
+                    </div>
+                    <div class="form-group">
+                        <label for="unit">Unidad</label>
+                        <input type="text" class="form-control" id="unit" required [(ngModel)]="indicador.unit"
+                            name="unit" [readonly]="submitted" />
+                    </div>
+                    <div class="form-group">
+                        <label for="value">Valor</label>
+                        <input class="form-control" id="value" required [(ngModel)]="indicador.value" name="value"
+                            [readonly]="submitted" />
+                    </div>
+                    <button (click)="agregarIndicador()" class="btn btn-success m-3">Agregar</button>
+                    <button (click)="limpiarIndicador()" class="btn btn-danger m-3">Limpiar</button>
                 </div>
-                <div class="form-group">
-                    <label for="name">Indicador</label>
-                    <input class="form-control" id="name" required [(ngModel)]="indicador.name" name="name" [readonly]="submitted" />
-                </div>
-                <div class="form-group">
-                    <label for="unit">Unidad</label>
-                    <input type="text" class="form-control" id="unit" required [(ngModel)]="indicador.unit" name="unit" [readonly]="submitted" />
-                </div>
-                <div class="form-group">
-                    <label for="value">Valor</label>
-                    <input class="form-control" id="value" required [(ngModel)]="indicador.value" name="value" [readonly]="submitted" />
-                </div>
-                <button (click)="agregarIndicador()" class="btn btn-success m-3">Agregar</button>
-                <button (click)="limpiarIndicador()" class="btn btn-danger m-3">Limpiar</button>
             </div>
             <br />
-            <div *ngIf="formError" class="alert alert-danger">
+            <div *ngIf="errorServicio" class="alert alert-danger">
+                No se pudo conectar con el servicio.
+            </div>
+            <button *ngIf="errorServicio" class="btn btn-success m-3" (click)="ngOnInit()">
+                Reintentar
+            </button>
+            <div *ngIf="formError && !submitted" class="alert alert-danger">
                 ¡Todos los campos son obligatorios!
             </div>
             <div *ngIf="formErrorExiste" class="alert alert-danger">
-                ¡El Id del indicador ya existe!
+                ¡El Id del indicador ya existe! Presiona el botón Limpiar.
             </div>
-            <div *ngIf="formErrorNumero" class="alert alert-danger">
+            <div *ngIf="formErrorNumero && !submitted" class="alert alert-danger">
                 ¡Ingresa un valor entero o decimal!
             </div>
             <div *ngIf="submitted" class="alert alert-success">
@@ -37,4 +49,9 @@
             </div>
         </div>
     </form>
+</div>
+<div class="center" *ngIf="cargando">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
 </div>

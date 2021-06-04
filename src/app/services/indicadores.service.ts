@@ -14,9 +14,14 @@ export class IndicadoresService {
   cargaOK = false;
 
   constructor(private http: HttpClient) {
+    // esta variable será la que guardará la respuesta de la API para que luego los datos puedan ser manipulados por los controller
     this.localBD = []
   }
 
+  /*
+  * getAll():
+  * consume api rest para obtener indicadres
+  */
   getAll(): Observable<Indicador[]> {
     return this.http.get<Indicador[]>(baseUrl);
   }
