@@ -11,3 +11,8 @@
   -o-user-select:none;
   cursor: pointer;
 }
+.center {
+  margin: auto;
+  width: 10%;
+  padding-top: 100px;
+}

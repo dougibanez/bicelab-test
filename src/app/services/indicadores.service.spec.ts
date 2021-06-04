@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { IndicadoresService } from 'src/app/services/indicadores.service';
 import { throwError } from 'rxjs';
 
-describe("DataAccessService", () => {
+describe("IndicadoresService", () => {
   let httpTestingController: HttpTestingController;
   let indicadoresService: IndicadoresService;
   let baseUrl = "/last";

@@ -12,7 +12,8 @@
     <button *ngIf="(indicadores?.length)" class="btn btn-success m-3" (click)="removerTodosIndicadores()">
       Eliminar Todos
     </button>
-    <div *ngIf="!(indicadores?.length) && !errorServicio && !cargando" class="alert alert-info"> <!-- -->
+    <div *ngIf="!(indicadores?.length) && !errorServicio && !cargando" class="alert alert-info">
+      <!-- -->
       No hay indicadores publicados
     </div>
     <div *ngIf="errorServicio" class="alert alert-danger">
@@ -45,6 +46,11 @@
       <button class="btn btn-danger m-3" (click)="eliminarIndicador(indicadorActual.key)">
         Eliminar
       </button>
+    </div>
+  </div>
+  <div class="center" *ngIf="cargando">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
   </div>
 </div>
